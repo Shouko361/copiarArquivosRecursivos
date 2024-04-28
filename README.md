@@ -15,15 +15,15 @@ pip install tqdm
 
 1. Clone este repositório:
 ```
-git clone https://github.com/seu-usuario/copiar-arquivos.git
+git https://github.com/Shouko361/copiarArquivosRecursivos.git
 ```
 2. Navegue até o diretório do script:
 ```
-cd copiar-arquivos
+cd copiarArquivosRecursivos
 ```
-3. Execute o script `copiar_arquivos.py`, especificando o diretório de origem e o diretório de destino:
+3. Execute o script `copiarMusicas.py`, especificando o diretório de origem e o diretório de destino:
 ```
-python copiar_arquivos.py /caminho/para/diretorio/de/origem /caminho/para/diretorio/de/destino
+python copiarArquivosRecursivos.py /caminho/para/diretorio/de/origem /caminho/para/diretorio/de/destino
 ```
 Substitua `/caminho/para/diretorio/de/origem` pelo caminho do diretório de origem e `/caminho/para/diretorio/de/destino` pelo caminho do diretório de destino.
 

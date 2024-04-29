@@ -1,30 +1,52 @@
 import os
 import shutil
+import sys
+from tqdm import tqdm
 
-def mover_arquivos_para_qtd(diretorio_origem, diretorio_destino):
-    # Verifica se o diretório de destino "QTD" existe, se não, cria um
+def copiar_arquivos_para_qtd(diretorio_origem, diretorio_destino):
+    
     if not os.path.exists(diretorio_destino):
         os.makedirs(diretorio_destino)
-        print(diretorio_origem)
 
-    # Percorre recursivamente todas as pastas e subpastas no diretório de origem
+    arquivos_a_copiar = []
     for pasta_atual, _, arquivos in os.walk(diretorio_origem):
-        # Para cada arquivo na pasta atual
         for arquivo in arquivos:
-            # Verifica se o arquivo é uma música (você pode adicionar mais extensões de música, se necessário)
             if arquivo.endswith(('.mp3', '.wav', '.flac', '.aac')):
-                # Constrói o caminho completo do arquivo de origem
-                caminho_arquivo_origem = os.path.join(pasta_atual, arquivo)
-                # Constrói o caminho completo do arquivo de destino na pasta "QTD"
-                caminho_arquivo_destino = os.path.join(diretorio_destino, arquivo)
-                # Move o arquivo para o diretório de destino
-                shutil.move(caminho_arquivo_origem, caminho_arquivo_destino)
-                print(f"Movido: {caminho_arquivo_origem} -> {caminho_arquivo_destino}")
+                arquivos_a_copiar.append(os.path.join(pasta_atual, arquivo))
 
-# Diretório de origem que contém as músicas e subpastas
-diretorio_origem = "C:\Users\brenn\Downloads\Musicas"
-# Diretório de destino onde os arquivos serão movidos
-diretorio_destino = "caminho/para/pasta/QTD"
+    arquivos_a_copiar.sort()
 
-# Chama a função para mover os arquivos
-mover_arquivos_para_qtd(diretorio_origem, diretorio_destino)
+    total_arquivos = len(arquivos_a_copiar)
+
+    
+    barra_progresso = tqdm(total=total_arquivos, desc="Copiando arquivos", unit="arquivo", bar_format="{l_bar}{bar}{r_bar}", colour='green')
+
+    
+    for i, caminho_arquivo_origem in enumerate(arquivos_a_copiar):
+        
+        nome_arquivo = os.path.basename(caminho_arquivo_origem)
+        
+        novo_nome = f"{i:03d} - {nome_arquivo.split('-', 1)[-1]}"
+        
+        caminho_arquivo_destino = os.path.join(diretorio_destino, novo_nome)
+        
+        shutil.copy2(caminho_arquivo_origem, caminho_arquivo_destino)
+
+        barra_progresso.update(1)
+
+    barra_progresso.close()
+
+if __name__ == "__main__":
+    if len(sys.argv) != 3:
+        faltando = ""
+        if len(sys.argv) < 2:
+            faltando = "diretório de origem"
+        elif len(sys.argv) < 3:
+            faltando = "diretório de destino"
+        print(f"Os argumentos {faltando} são necessários.")
+        sys.exit(1)
+
+    diretorio_origem = sys.argv[1]
+    diretorio_destino = sys.argv[2]
+
+    copiar_arquivos_para_qtd(diretorio_origem, diretorio_destino)

@@ -15,7 +15,7 @@ pip install tqdm
 
 1. Clone este repositório:
 ```
-git https://github.com/Shouko361/copiarArquivosRecursivos.git
+git clone https://github.com/Shouko361/copiarArquivosRecursivos.git
 ```
 2. Navegue até o diretório do script:
 ```
